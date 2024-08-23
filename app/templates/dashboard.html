@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Dashboard - ISO 27001 Compliance</h1>
+
+<div class="dashboard-container">
+
+    <!-- Tarjeta de Resumen de Cumplimiento -->
+    <div class="card">
+        <h2>Resumen de Cumplimiento</h2>
+        <p>Total de Controles: {{ total_controls }}</p>
+        <p>Controles Cumplidos: {{ completed_controls }}</p>
+        <p>Controles Pendientes: {{ pending_controls }}</p>
+    </div>
+
+    <!-- Tarjeta de Evaluación de Riesgos -->
+    <div class="card">
+        <h2>Evaluación de Riesgos</h2>
+        <p>Riesgos Identificados: {{ total_controls }}</p>
+        <p>Riesgos Mitigados: {{ completed_controls }}</p>
+        <p>Riesgos Pendientes: {{ pending_controls }}</p>
+    </div>
+
+    <!-- Tarjeta de Enlaces Rápidos -->
+    <div class="card">
+        <h2>Enlaces Rápidos</h2>
+        <ul>
+            <li><a href="{{ url_for('compliance_checklist') }}">Ver Checklist de Cumplimiento</a></li>
+            <li><a href="{{ url_for('risk_assessment') }}">Realizar Evaluación de Riesgos</a></li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- Inyección de datos para scripts.js -->
+<script type="text/javascript">
+    const totalControls = parseInt('{{ total_controls }}');
+    const completedControls = parseInt('{{ completed_controls }}');
+    const pendingControls = parseInt('{{ pending_controls }}');
+</script>
+
+
+<!-- Sección de Gráficos -->
+<div class="charts-container">
+    <h2>Gráficos de Cumplimiento y Riesgos</h2>
+    <div>
+        <canvas id="complianceChart"></canvas>
+    </div>
+    <div>
+        <canvas id="riskChart"></canvas>
+    </div>
+</div>
+
+{% endblock %}

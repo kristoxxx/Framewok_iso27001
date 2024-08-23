@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Compliance Checklist</h2>
+
+<div class="filters">
+    <button onclick="filterControls('all')">Todos</button>
+    <button onclick="filterControls('completed')">Cumplidos</button>
+    <button onclick="filterControls('pending')">Pendientes</button>
+</div>
+
+<table class="checklist-table">
+    <thead>
+        <tr>
+            <th>Control</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for control in controls %}
+        <tr class="control-row" data-status="{{ 'completed' if control.completed else 'pending' }}">
+            <td>{{ control.id }}</td>
+            <td>{{ control.description }}</td>
+            <td class="status">{{ 'Cumplido' if control.completed else 'Pendiente' }}</td>
+            <td>
+                <button onclick="toggleStatus('{{ control.id }}')">
+                    {{ 'Marcar como Pendiente' if control.completed else 'Marcar como Cumplido' }}
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

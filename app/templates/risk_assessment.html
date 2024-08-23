@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Evaluación de Riesgos</h1>
+
+<div class="risk-summary">
+    <div class="card">
+        <h2>Resumen de Riesgos</h2>
+        <p>Total de Riesgos Identificados: {{ total_risks }}</p>
+        <p>Riesgos Mitigados: {{ mitigated_risks }}</p>
+        <p>Riesgos Pendientes: {{ pending_risks }}</p>
+    </div>
+</div>
+
+<div class="add-risk-form">
+    <h2>Agregar Nuevo Riesgo</h2>
+    <form action="{{ url_for('add_risk') }}" method="POST">
+        <label for="risk_description">Descripción del Riesgo:</label>
+        <input type="text" id="risk_description" name="risk_description" required>
+        <button type="submit">Agregar Riesgo</button>
+    </form>
+</div>
+
+<div class="risk-table">
+    <h2>Riesgos Actuales</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for risk in risks %}
+            <tr>
+                <td>{{ risk.id }}</td>
+                <td>{{ risk.description }}</td>
+                <td>{{ 'Mitigado' if risk.mitigated else 'Pendiente' }}</td>
+                <td>
+                    <button onclick="toggleRisk('{{ risk.id }}')">
+                        {{ 'Marcar como Pendiente' if risk.mitigated else 'Marcar como Mitigado' }}
+                    </button>
+                    <button onclick="deleteRisk('{{ risk.id }}')">Eliminar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Gráficos de Evaluación de Riesgos -->
+<div class="charts-container">
+    <h2>Gráficos de Evaluación de Riesgos</h2>
+    <div>
+        <canvas id="riskAssessmentChart"></canvas>
+    </div>
+</div>
+<!-- Inyección de datos de evaluación de riesgos para scripts.js -->
+
+<script type="text/javascript">
+    const totalRisks = Number("{{ total_risks }}");
+    const mitigatedRisks = Number("{{ mitigated_risks }}");
+    const pendingRisks = Number("{{ pending_risks }}");
+</script>
+
+
+<!-- Gráficos de Evaluación de Riesgos -->
+<div class="charts-container">
+    <h2>Gráficos de Evaluación de Riesgos</h2>
+    <div>
+        <canvas id="riskAssessmentChart"></canvas>
+    </div>
+</div>
+
+
+
+{% endblock %}
